@@ -1,0 +1,53 @@
+﻿@page "/GetProduct"
+@inject HttpClient Http;
+@using Model
+<h3>Get Product</h3>
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>   
+                <th>Name</th>   
+                <th>Price</th>  
+                <th>Quantity</th>  
+                <th>Date</th>
+                <th>Description</th>
+                <th>NamCategory</th>
+                <th>Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in products)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Description</td>
+                    <td>@item.Date</td>
+                    <td>@item.Categories</td>
+                    <td>
+                        <a>Edit</a>
+                    </td>
+                 
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Product> products { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Http.GetFromJsonAsync<List<Product>>("GetAll_Table");
+
+    }
+}
